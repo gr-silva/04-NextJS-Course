@@ -6,9 +6,15 @@ const globalQuery = `
     }
   }
 `;
-export async function cmsService({ query }) {
+
+const BASE_ENDPOINT = "https://graphql.datocms.com";
+const PREVIEW_ENDPOINT = `${BASE_ENDPOINT}/preview`;
+
+export async function cmsService({ query, preview }) {
+  const ENDPOINT = preview ? PREVIEW_ENDPOINT : BASE_ENDPOINT;
+
   try {
-    const pageContentResponse = await fetch("https://graphql.datocms.com/", {
+    const pageContentResponse = await fetch(ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -17,11 +23,12 @@ export async function cmsService({ query }) {
       body: JSON.stringify({ query }),
     }).then(async (response) => {
       const body = await response.json();
+
       if (!body.errors) return body;
       throw new Error(JSON.stringify(body));
     });
 
-    const globalContentResponse = await fetch("https://graphql.datocms.com/", {
+    const globalContentResponse = await fetch(ENDPOINT, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

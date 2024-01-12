@@ -13,7 +13,7 @@ export async function getStaticPaths() {
   };
 }
 
-export async function getStaticProps({ params }) {
+export async function getStaticProps({ params, preview }) {
   const { id } = params;
 
   const contentQuery = `
@@ -29,6 +29,7 @@ export async function getStaticProps({ params }) {
 
   const { data } = await cmsService({
     query: contentQuery,
+    preview,
   });
 
   return {
