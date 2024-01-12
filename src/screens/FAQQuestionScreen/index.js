@@ -6,6 +6,7 @@ import { cmsService } from "../../infra/cms/cmsService";
 import { StructuredText, renderNodeRule } from "react-datocms/structured-text";
 import { isHeading } from "datocms-structured-text-utils";
 import CMSProvider from "../../infra/cms/CMSProvider";
+import { pageHOC } from "../../components/wrapper/pageHOC";
 
 export async function getStaticPaths() {
   return {
@@ -43,7 +44,7 @@ export async function getStaticProps({ params, preview }) {
   };
 }
 
-export default function FAQQuestionScreen({ cmsContent }) {
+function FAQQuestionScreen({ cmsContent }) {
   return (
     <CMSProvider cmsContent={cmsContent}>
       <Head>
@@ -96,3 +97,5 @@ export default function FAQQuestionScreen({ cmsContent }) {
     </CMSProvider>
   );
 }
+
+export default pageHOC(FAQQuestionScreen);
