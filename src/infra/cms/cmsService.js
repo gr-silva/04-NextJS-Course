@@ -10,7 +10,7 @@ const globalQuery = `
 const BASE_ENDPOINT = "https://graphql.datocms.com";
 const PREVIEW_ENDPOINT = `${BASE_ENDPOINT}/preview`;
 
-export async function cmsService({ query, preview }) {
+export async function cmsService({ query, variables, preview }) {
   const ENDPOINT = preview ? PREVIEW_ENDPOINT : BASE_ENDPOINT;
 
   try {
@@ -20,7 +20,10 @@ export async function cmsService({ query, preview }) {
         "Content-Type": "application/json",
         Authorization: `Bearer ${TOKEN}`,
       },
-      body: JSON.stringify({ query }),
+      body: JSON.stringify({
+        query,
+        variables,
+      }),
     }).then(async (response) => {
       const body = await response.json();
 
